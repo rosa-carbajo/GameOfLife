@@ -1,4 +1,4 @@
-# El Juego de la Vida: 
+# El Juego de la Vida 
 
 Práctica de Programación Funcional (Programación Declarativa) en Scala 3.
 Variante competitiva para dos jugadores del Juego de la Vida de Conway: cada jugador coloca un número
@@ -7,7 +7,7 @@ limitado de células en un tablero de 15x15 y gana quien tarde más generaciones
 Entrega: **11 de noviembre de 2026**. Plan y reparto en [PLAN.md](PLAN.md).
 
 ## Estructura del repositorio
-
+```
 .
 ├── README.md
 ├── PLAN.md
