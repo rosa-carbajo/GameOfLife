@@ -3126,3 +3126,5 @@ ADVERTENCIA: Unmatched cancel notification for request id 32440
 2026.11.07 17:48:25 INFO  time: compiled GameOfLife_41e103cfb2 in 2.4s
 2026.11.07 17:55:11 INFO  compiling gameoflife_41e103cfb2 (1 scala source)
 2026.11.07 17:55:15 INFO  time: compiled GameOfLife_41e103cfb2 in 3.48s
+nov 07, 2026 5:59:22 P. M. org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFORMACIÓN: Unsupported notification method: $/setTrace
