@@ -1,4 +1,4 @@
-# El Juego de la Vida: la batalla de los patrones
+# El Juego de la Vida
 
 Práctica de Programación Funcional (Programación Declarativa) en Scala 3.
 Variante competitiva para dos jugadores del Juego de la Vida de Conway: cada jugador coloca un número
@@ -8,6 +8,7 @@ Entrega: **11 de noviembre de 2026**. Plan y reparto en [PLAN.md](PLAN.md).
 
 ## Estructura del repositorio
 
+```
 .
 ├── README.md
 ├── PLAN.md
