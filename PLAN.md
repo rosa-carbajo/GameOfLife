@@ -1,9 +1,9 @@
 # Plan de trabajo: El Juego de la Vida (Programación Declarativa)
 
-**Entrega:** miércoles 11 de noviembre de 2026 (fuera de plazo = suspenso; menos de 24 h tarde = −30 %).
+**Entrega:** Viernes 13 de noviembre de 2026 (fuera de plazo = suspenso; menos de 24 h tarde = −30 %).
 
 Somos dos: **Rosa Carbajo Rodríguez** y **Rocío Muñoz del Olmo**.
-El reparto está pensado para que cada uno toque las dos mitades del proyecto (matrices y lógica del juego), porque el enunciado avisa de que, si hay sospecha, individualmente nos tocará defender la implementación. Por eso cada persona debe trabajar en su rama propia (en vez del main) y cuando termines realizas un Pull request, es ahí cuando la otra persona revisa el codigo en la web, hace pruebas y finalmente se hace merge para que el código pase al main. 
+El reparto está pensado para que cada uno toque las dos mitades del proyecto (matrices y lógica del juego), porque el enunciado avisa de que, si hay sospecha, individualmente nos tocará defender la implementación. Por eso cada persona debe trabajar en su rama propia (en vez del `main`) y cuando termines realizas un Pull request, es ahí cuando la otra persona revisa el codigo en la web, hace pruebas y finalmente se hace merge para que el código pase al `main`. 
 
 ## Puntuación (para priorizar)
 
@@ -22,43 +22,48 @@ El reparto está pensado para que cada uno toque las dos mitades del proyecto (m
 
 Lo obligatorio suma 8. Las opcionales solo si vamos bien de tiempo. 
 
-## Calendario semanal
+## Tareas comunes (las dos)
 
-Si tenemos exámenes en una semana concreta, movemos esa semana entera hacia delante y recortamos primero las opcionales.
+- Crear el repositorio en GitHub y subir la estructura y la plantilla del profesor.
+- Comprobar que las dos podemos ejecutar las pruebas del profesor (`MatrixTests`, etc.) desde IntelliJ o sbt.
+- Leer el enunciado completo y repasar la recursión de cola y el pattern matching sobre `List`.
+- Revisar las Pull Requests de la otra.
+- Repasar los comentarios: cada función documentada, sin pasarse.
+- Escribir cada una su parte de la memoria a partir de `docs/memoria/notas.md`.
 
-### Semana 0 · 9 al 11 de octubre: arranque (para las dos)
-- Crear el repo en GitHub
-- Crear y subir la estructura y la plantilla.
-- Comprobar podemos ejecutar `MatrixTests` desde sbt(npm o maven de Scala), que es uno de los ficheros del profesor.
-- Leer el enunciado completo y repasar recursión de cola y pattern matching sobre `List`.
+## Reparto del trabajo
 
-### Semana 1 · 12 al 18 de octubre: Matrix (2 ptos)
-- **Rosa:** constructores del companion object (`defaultValue` y `marked`), `inside`, `get`, `update` (tailrec).
-- **Rocío:** `partition` (tailrec), `neighbors`, `filterNeighbors`.
-- **Objetivo:** `MatrixTests` en verde, incluida la prueba de 300x300.
-- Recordar: sin `map`, `filter`, `foldLeft`, `data(i)`... solo recursión y `head :: tail`.
+### Rosa Carbajo Rodríguez
 
-### Semana 2 · 19 al 25 de octubre: tablero y estado
-- **Rosa:** `GameOfLifeMatrix`: `empty`, `withAlive`, `update`, `countAliveNeighbors`, `aliveCells`, `aliveCount`, `nextGeneration`.
-- **Rocío:** `Player` (`otherPlayer`, `playerName`), `State`(que ya está hecho), y en `Game`: `initialState`, `hasFinished`, `placeCell`.
-- **Objetivo:** `GameOfLifeMatrixTests` en verde; probar `placeCell` con los ejemplos del enunciado (Game(4, 5, 3, 100)).
+| Parte | Qué incluye |
+|---|---|
+| **Matrix** (completa) | Constructores del objeto compañero (`defaultValue` y `marked`), `inside`, `get`, `update`, `partition`, `neighbors`, `filterNeighbors`. Todo recursivo y de cola, sin `map`, `filter`, `foldLeft` ni `data(i)`. |
+| **GameOfLifeMatrix** | `empty`, `withAlive`, `update`, `countAliveNeighbors`, `aliveCells`, `aliveCount`, `nextGeneration`. |
+| **Game: simulación y partida** | `simulate` (tailrec, con un `Set` de estados vistos), `determineWinner`, `play`. |
+| **AIStrategy** (opcional) | Búsqueda aleatoria mixta (patrones compactos y dispersos) evaluada con `game.simulate`. |
+| **Gestión de efectos** (opcional) | Objeto `Consola` (`Try`) y funciones de validación puras (`Either`) usadas en `ManualStrategy` y `Main`. |
+| **MatrixList** (opcional) | Versión con funciones de orden superior. |
+| **Integración** | Unir todas las partes en la versión final y generar la entrega. |
 
-### Semana 3 · 26 de octubre al 1 de noviembre: lógica completa del juego
-- **Rosa:** `simulate` (tailrec, con `Set` de estados vistos), `determineWinner`, `play`.
-- **Rocío:** `placementLoop` (tailrec) y `ManualStrategy` (lectura recursiva con `StdIn.readLine`, caso `null`).
-- **Objetivo:** ejemplo del enunciado funcionando: 5x5, 4 células, bloque (1, 4) contra esquinas (2, 0), gana Player2.
+### Rocío Muñoz del Olmo
 
-### Semana 4 · 2 al 8 de noviembre: programa principal y extras
-- **Rocío:** `Main` (presupuesto 1 a 225 con reintento, elegir humano o IA, mostrar resultados, ofrecer `Animation.animate`).
-- **Rosa:** opcional `AIStrategy` (búsqueda aleatoria con `game.simulate`).
-- **si sobra tiempo:** `MatrixList` y `GameOfLifeMatrixList` (Rosa una y Rocío otra. Además los constructores de MatrixList ya vienen hechos).
-- Repasar comentarios: cada función documentada, sin pasarse.
-- **Objetivo:** partida completa jugable de principio a fin.
+| Parte | Qué incluye |
+|---|---|
+| **Player** | `otherPlayer`, `playerName` (`State` ya viene hecho). |
+| **Game: fase de colocación** | `initialState`, `hasFinished`, `placeCell`, `placementLoop` (tailrec). |
+| **ManualStrategy** | Lectura recursiva de la posición con `StdIn.readLine` y caso `null`. |
+| **Main** | Presupuesto de 1 a 225 con reintento, elegir humano o IA, mostrar resultados y ofrecer `Animation.animate`. |
+| **GameOfLifeMatrixList** (opcional) | Versión del tablero sobre `MatrixList`. |
 
-### Semana 5 · 9 y 10 de noviembre: memoria y entrega
-- Lunes 9: cada uno escribe su parte de la memoria a partir de `docs/memoria/notas.md`.
-- Lunes 10: generar el `.zip` (solo los `.scala` de `src/main`, sin pruebas) y el PDF. **Subir ese día.**
-- Martes 11: margen para imprevistos.
+## Objetivos de control
+
+Cada objetivo se comprueba antes de pasar al siguiente bloque:
+
+1. `MatrixTests` en verde, incluida la prueba de 300x300.
+2. `GameOfLifeMatrixTests` en verde, y `placeCell` probado con los ejemplos del enunciado (`Game(4, 5, 3, 100)`).
+3. Ejemplo del enunciado funcionando: 5x5, 4 células, bloque (1, 4) contra esquinas (2, 0), gana Player2.
+4. Partida completa jugable de principio a fin, con humano y con IA.
+5. Entrega: `.zip` con solo los `.scala` de `src/`, sin pruebas, y la memoria en PDF.
 
 ## Cómo trabajar en GitHub
 - `main` siempre compila. Nadie hace push directo a `main`.

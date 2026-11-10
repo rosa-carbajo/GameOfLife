@@ -2,7 +2,6 @@ package gameoflife
 
 import scala.annotation.tailrec
 
-//Constructor pp de la clase matriz
 class Matrix[T](val rows: Int, val columns: Int, val data: List[T]):
   require(rows >= 0 && columns >= 0 && data.length == rows * columns,
     s"Una matriz $rows x $columns necesita ${rows * columns} datos (hay ${data.length})")
@@ -11,26 +10,28 @@ class Matrix[T](val rows: Int, val columns: Int, val data: List[T]):
 
   private def positionOf(i: Int): Position = Position(i / columns, i % columns)
 
+  // Al final lo que queremos es 4 columnas y si ponemos <= tendriamos 5 columnas 
+    //(porque empezamos por 0)
   def inside(p: Position): Boolean = {
     (0 <= p.row) && (p.row < this.rows) && (0 <= p.column) && (p.column < this.columns)
-    // Al final lo uqe queremos es 4 columnas y si ponemos <= tendriamos 5 columnas 
-    //(porque empezamos por 0)
   } 
 
 
   def get(p: Position): T = {
     if(!this.inside(p)) throw new IndexOutOfBoundsException
     @tailrec
-    def kEsimo(lista: List[T], k: Int): T = {
-      if (k == 0) {lista.head} 
-      else {kEsimo(lista.tail, k-1)} 
-  } 
+    def kEsimo(lista: List[T], k: Int): T = lista match {
+      case Nil => throw new IndexOutOfBoundsException
+      case head :: tail => if (k == 0) head else kEsimo(tail, k - 1)
+    }
     kEsimo(this.data, this.index(p))
   }
    
-  //Creo esta funcion adicional porque la utilizo en update y partition
+  // Creo esta funcion adicional porque la utilizo en update y partition
+  // Y más tarde la utilizo en GameOfLifeMatrix para aliveCells
+  // He tenido que definirlo como final porque se exige que el metodo no se pueda sobreescribir en una subclase y que así podamos hacer el bucle
   @tailrec
-  private def reverso[A](lista: List[A], lista_inver: List[A]): List[A] = lista match {
+  protected final def reverso[A](lista: List[A], lista_inver: List[A]): List[A] = lista match {
     case Nil => lista_inver
     case head :: tail => reverso(tail, head :: lista_inver)
   }
@@ -40,13 +41,13 @@ class Matrix[T](val rows: Int, val columns: Int, val data: List[T]):
     
     //No se necesita pasar value porque ya lo tenemos de fuera
     @tailrec
-    def update_aux(pos: Int, lista: List[T], lista_updt: List[T]): List[T] = lista match {
-      //La idea es que se recorra toda lista para pasarle todos los valores a lista_updt, pero 
+    def update_aux(pos: Int, lista: List[T], listaNueva: List[T]): List[T] = lista match {
+      //La idea es que se recorra toda lista para pasarle todos los valores a listaNueva, pero 
       //quedarán del revés asique metemos una funcion de reverse y ya 
-      case Nil => lista_updt
+      case Nil => listaNueva
       case head :: tail =>
-        if (pos == 0) {update_aux(-1, tail, value :: lista_updt)}
-        else {update_aux(pos-1, tail, head :: lista_updt)}
+        if (pos == 0) {update_aux(-1, tail, value :: listaNueva)}
+        else {update_aux(pos-1, tail, head :: listaNueva)}
     }
     
     val revertida: List[T] = update_aux(this.index(p), this.data, Nil)
@@ -61,13 +62,13 @@ class Matrix[T](val rows: Int, val columns: Int, val data: List[T]):
       Position(p.row+1, p.column-1), Position(p.row+1, p.column), Position(p.row+1, p.column+1))
 
     @tailrec
-    def exiten(lista: List[Position], la_nueva: List[Position]): List[Position] = lista match{
+    def existen(lista: List[Position], la_nueva: List[Position]): List[Position] = lista match{
       case Nil => la_nueva
       case head :: tail =>
-        if(this.inside(head)) {exiten(tail, head :: la_nueva)}
-        else {exiten(tail, la_nueva)}
+        if(this.inside(head)) {existen(tail, head :: la_nueva)}
+        else {existen(tail, la_nueva)}
     }
-    exiten(vecinos, Nil)
+    existen(vecinos, Nil)
   } 
 
   def partition(f: T => Boolean): (List[Position], List[Position]) = {
@@ -89,17 +90,20 @@ class Matrix[T](val rows: Int, val columns: Int, val data: List[T]):
     val vecinos = neighbors(p)
     
     @tailrec
-    def aux(lista_original: List[Position], loq_cumplen: List[Position]): List[Position] = lista_original match{
-      case Nil => loq_cumplen
-      //Dato importante: la lista que devolvemos sale revertida
-      // Pero el profesor dice que no importa el orden asique entiendo que no pasa nada
+    def aux(lista_original: List[Position], los_que_cumplen: List[Position]): List[Position] = lista_original match{
+      case Nil => los_que_cumplen
+      // Dato importante: la lista que devolvemos sale revertida
+      // Pero el orden del resultado no importa (lo indica así el enunciado)
       case head :: tail =>
-        if(f(this.get(head))) {aux(tail, head :: loq_cumplen)}
-        else {aux(tail, loq_cumplen)}
+        if(f(this.get(head))) {aux(tail, head :: los_que_cumplen)}
+        else {aux(tail, los_que_cumplen)}
     }
     aux(vecinos, Nil)
   }
 
+
+// Este es un objeto companion, se usa para implementar el comportamiento estático
+// de una clase
 object Matrix:
 
   def apply[T](rows: Int, columns: Int, data: List[T]): Matrix[T] =
@@ -117,7 +121,7 @@ object Matrix:
 
   def apply[T](rows: Int, columns: Int, defaultValue: T, marked: List[Position], markedValue: T): Matrix[T] = {
     val longitud: Int = rows * columns
-    
+     
     @tailrec
     def conversion(posiciones: List[Position], indices: List[Int]): List[Int] = posiciones match {
         case Nil => indices

@@ -10,6 +10,26 @@
       "args": [],
       "jvmOptions": [],
       "env": {}
+    },
+    {
+      "type": "scala",
+      "request": "launch",
+      "name": "GameOfLifeMatrixTests",
+      "mainClass": "gameoflife.GameOfLifeMatrixTests",
+      "buildTarget": "file:/C:/Users/UAH/OneDrive%20-%20Universidad%20de%20Alcala/Documentos/GameOfLife/.scala-build/?id=GameOfLife_41e103cfb2",
+      "args": [],
+      "jvmOptions": [],
+      "env": {}
+    },
+    {
+      "type": "scala",
+      "request": "launch",
+      "name": "MatrixListTests",
+      "mainClass": "gameoflife.MatrixListTests",
+      "buildTarget": "file:/C:/Users/UAH/OneDrive%20-%20Universidad%20de%20Alcala/Documentos/GameOfLife/.scala-build/?id=GameOfLife_41e103cfb2",
+      "args": [],
+      "jvmOptions": [],
+      "env": {}
     }
   ]
 }

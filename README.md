@@ -3,7 +3,7 @@ Práctica de Programación Funcional (Programación Declarativa) en Scala 3.
 Variante competitiva para dos jugadores del Juego de la Vida de Conway: cada jugador coloca un número
 limitado de células en un tablero de 15x15 y gana quien tarde más generaciones en estabilizarse (máximo 1000).
 
-Entrega: **11 de noviembre de 2026**. Plan y reparto en [PLAN.md](PLAN.md).
+Entrega: **13 de noviembre de 2026**. Plan y reparto en [PLAN.md](PLAN.md).
 
 ## Estructura del repositorio
 ```
@@ -41,7 +41,6 @@ Es la misma estructura que la plantilla del profesor; no cambiar, porque el zip 
 ## Ejecutar las pruebas
 
 Cada fichero de pruebas/ es un object ... extends App: se ejecuta con el botón de ejecutar sobre el objeto (IntelliJ o VS Code con Metals). Muestra [OK] o [XX] por cada prueba
-
 
 ```
 
